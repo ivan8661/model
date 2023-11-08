@@ -1,6 +1,8 @@
 package ru.poltorakov.domain.service;
 
 import org.springframework.stereotype.Component;
+import ru.poltorakov.domain.dto.TransactionDTO;
+import ru.poltorakov.domain.dto.UserDTO;
 import ru.poltorakov.domain.exception.BalanceException;
 import ru.poltorakov.domain.exception.TransactionAlreadyExistsException;
 import ru.poltorakov.domain.exception.UserException.UserAlreadyExistsException;
@@ -8,6 +10,7 @@ import ru.poltorakov.domain.exception.UserException.UserNotFoundException;
 import ru.poltorakov.domain.model.transaction.Transaction;
 import ru.poltorakov.domain.model.users.User;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 /**
@@ -23,26 +26,28 @@ public interface UserService {
 
         /**
          * Registers a new user in the system.
-         * @param user The user to be registered.
+         * @param userDTO The user to be registered.
          * @return The registered user.
          */
-        User registerUser(User user) throws SQLException, UserAlreadyExistsException, UserNotFoundException;
+        UserDTO registerUser(UserDTO userDTO) throws SQLException, UserAlreadyExistsException, IOException, UserNotFoundException;
 
         /**
          * Authenticates a user based on the provided user credentials.
          * This method attempts to authenticate the user using the provided user object, which contains user credentials.
          * If the authentication is successful, it returns the authenticated user. If the authentication fails, it may throw
          * a {@link UserNotFoundException} or a {@link SQLException} if there are database-related issues.
-         * @param user The user object containing credentials for authentication.
+         * @param userDTO The user object containing credentials for authentication.
          * @return The authenticated user if the authentication is successful.
          * @throws UserNotFoundException If the user is not found or authentication fails.
          * @throws SQLException If there are database-related issues during authentication.
          */
-        User authenticate(User user) throws UserNotFoundException, SQLException;
+        UserDTO authenticate(UserDTO userDTO) throws UserNotFoundException, SQLException, IOException;
 
-        User withdraw(User user, Transaction transaction) throws UserNotFoundException, SQLException, TransactionAlreadyExistsException, BalanceException;
+        UserDTO withdraw(UserDTO userDTO, TransactionDTO transactionDTO) throws UserNotFoundException, SQLException,
+                IOException, TransactionAlreadyExistsException, BalanceException;
 
-        User fund(User user, Transaction transaction) throws UserNotFoundException, SQLException, TransactionAlreadyExistsException;
+        UserDTO fund(UserDTO userDTO, TransactionDTO transactionDTO) throws UserNotFoundException, SQLException,
+                IOException, TransactionAlreadyExistsException;
 
         /**
          * Checks if a user with the given login exists in the system.
@@ -56,13 +61,13 @@ public interface UserService {
          * @param login The login of the user to retrieve.
          * @return The found user or null if not found.
          */
-        User getUserByLogin(String login) throws SQLException;
+        UserDTO getUserByLogin(String login) throws SQLException;
 
         /**
          * Retrieves the balance of a user's account.
-         * @param user The user for whom the balance is to be retrieved.
+         * @param userDTO The user for whom the balance is to be retrieved.
          * @return The balance of the user's account.
          * @throws SQLException If an error occurs while accessing the database.
          */
-        User getBalance(User user) throws SQLException;
+        UserDTO getBalance(UserDTO userDTO) throws SQLException, IOException;
 }

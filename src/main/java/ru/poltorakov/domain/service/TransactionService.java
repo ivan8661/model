@@ -1,6 +1,7 @@
 package ru.poltorakov.domain.service;
 
 import org.springframework.stereotype.Component;
+import ru.poltorakov.domain.dto.TransactionDTO;
 import ru.poltorakov.domain.exception.TransactionAlreadyExistsException;
 import ru.poltorakov.domain.model.transaction.Transaction;
 
@@ -24,7 +25,7 @@ public interface TransactionService {
      * @param login The login of the user for whom the transaction history is retrieved.
      * @return A list of transactions representing the user's transaction history.
      */
-    List<Transaction> getUserHistoryTransaction(String login) throws SQLException;
+    List<TransactionDTO> getUserHistoryTransaction(String login) throws SQLException;
 
     /**
      * Retrieves a transaction by its unique identifier (ID).
@@ -32,12 +33,12 @@ public interface TransactionService {
      * @return The transaction associated with the provided ID, or {@code null} if not found.
      * @throws SQLException If an error occurs while accessing the database.
      */
-    Transaction getTransactionById(String id) throws SQLException;
+    TransactionDTO getTransactionById(String id) throws SQLException;
 
     /**
      * Retrieves a list of all transactions stored in the system.
      * @return A list of all transactions.
      * @throws SQLException If an error occurs while accessing the database.
      */
-    List<Transaction> getAllTransactions() throws SQLException;
+    List<TransactionDTO> getAllTransactions() throws SQLException;
 }
